@@ -112,5 +112,74 @@ def test_17(a):
         print 'LOVE'
     else:
         print 'SINGLE'
-test_17('i lOve you')
+def test_subtract(st,et):
+    str1 =st.split(":")
+    et1 =et.split(":")
+    s=0
+    m=3600
+    for i in range(3):
+        s=s+int((int(et1[i])-int(str1[i])))*m
 
+        m=m/60
+    print s
+
+def test_subtract1(st,et):
+    et = map(int, et.split(":"))
+    st = map(int, st.split(":"))
+    print et
+    dif = 0
+    for e, s in zip(et, st):
+        dif = dif * 60 + (e - s)
+    print dif
+
+st="00:00:00"
+et="01:01:10"
+#test_subtract1(st,et)
+def test_leap(year):
+    year=int(year)
+    if year%4==0 and year%100!=0 or year%400==0:
+        print '366'
+    else:
+        print '365'
+#test_leap(2013)
+def test_sort():
+    L=[0,1,6,3,4,5]
+    m=sorted(L)
+    n= sorted(L,reverse=True)
+    if L==m:
+        print "UP"
+    elif L==n:
+        print "DOWN"
+    else:
+        print "WRONG"
+#test_sort()
+def test_equal():
+    L=[0,1,6,3,2,5]
+    if len(L)==len(set(L)):
+        print "YES"
+    else:
+        print "NO"
+def test_equal1():
+    L=[0,1,6,3,1,5]
+    sign = False
+    for i in L:
+        if L.count(i) >= 2:
+            sign = True
+
+    if sign == True:
+        print "YES"
+    else:
+        print "NO"
+#test_equal1()
+def test_circler():
+    a="abcba"
+    n=2
+    j = 'NO'
+    for i in range(len(a)):
+        a1 = a[i:n+i][::-1]
+        if a1 == a[i:n+i] and len(a1) == n:
+            j = 'YES'
+    print j
+#test_circler()
+t={'year':'2013','month':'9','day':'30','hour':'16','minute':'45','second':'2'}
+print t["year"]
