@@ -1,6 +1,19 @@
 __author__ = 'rzhao'
-import calendar
+#coding=utf-8
+from selenium import webdriver
+import time
+driver = webdriver.Chrome()
+driver.get("http://www.baidu.com/")
+driver.maximize_window()
+time.sleep(5)
+driver.find_element_by_name("tj_trnews").click()
+time.sleep(5)
+driver.find_element_by_id("passLog")
 
-cal = calendar.month(2008, 1)
-print "Here is the calendar:"
-print cal;
+div=driver.find_element_by_class_name("tang-content").find_element_by_name("userName")
+div.send_keys("username")
+
+driver.find_element_by_name("password").send_keys("password")
+
+driver.find_element_by_id("TANGRAM__PSP_10__submit").click()
+driver.quit()
