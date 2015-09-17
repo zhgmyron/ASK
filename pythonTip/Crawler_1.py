@@ -1,12 +1,61 @@
 #-*-coding:utf-8-*-
 __author__ = 'rzhao'
-
+import string
 import urllib
 import urllib2
 from urllib2 import Request, urlopen, URLError, HTTPError
+def test_file():
+    poem='''\
+    Programming is fun
+    When the work is done
+    if you wanna make your work also fun:
+        use Python1!
+    '''
+
+    f=file('poem.txt','a') # open for 'w'riting
+    f.write(poem) # write text to file
+    f.close() # close the file
+
+    f=file('poem.txt')
+    # if no mode is specified, 'r'ead mode is assumed by default
+    while True:
+        line=f.readline()
+        if len(line)==0: # Zero length indicates EOF
+            break
+        print line,
+        # Notice comma to avoid automatic newline added by Python
+    f.close() # close the file
+
+def test_store():
+    #!/usr/bin/env python
+    # Filename: pickling.py
+
+    import cPickle as p
+    #import pickle as p
+
+    shoplistfile='shoplist.data'
+    # the name of the file where we will store the object
+
+    shoplist=['apple','mango','carrot']
+
+    # Write to the file
+    f=file(shoplistfile,'w')
+    p.dump(shoplist,f) # dump the object to a file
+    f.close()
+
+    del shoplist # remove the shoplist
+
+    # Read back from the storage
+    f=file(shoplistfile)
+    storedlist=p.load(f)
+    print storedlist
+
+
 def test_csdnhead():
     user_agent="Mozilla/5.0 (Windows NT 6.1; WOW64)"
-    headers = { 'User-Agent' : user_agent }
+    headers = { 'User-Agent' : user_agent ,
+                'Referer':'http://www.cnbeta.com/articles'
+                }
     values = {}
     values['username'] = "guangking1987@163.com"
     values['password']="Zxcvb1234567"
@@ -48,7 +97,7 @@ def test_get():
 def test_e():
 
 
-    req = urllib2.Request('http://www.baibai.com')
+    req = urllib2.Request('http://www.baidu.com')
 
     try: urllib2.urlopen(req)
 
@@ -60,4 +109,88 @@ def test_d():
     response = urlopen(req)
     print 'Old url :' + old_url
     print 'Real url :' + response.geturl()
-test_d()
+    print 'infor'
+    print response.info()
+def test_se():
+    req = Request('http://bbs.csdn.net/callmewhy')
+
+    try:
+
+        response = urlopen(req)
+
+    except URLError, e:
+
+        if hasattr(e, 'code'):
+
+            print 'The server couldn\'t fulfill the request.'
+
+            print 'Error code: ', e.code
+
+        elif hasattr(e, 'reason'):
+
+            print 'We failed to reach a server.'
+
+            print 'Reason: ', e.reason
+    else:
+        print 'No exception was raised.'
+def test_proxy():
+    enable_proxy = True
+    proxy_handler = urllib2.ProxyHandler({"http" : 'http://112.195.81.53:9000'})
+    null_proxy_handler = urllib2.ProxyHandler({})
+    if enable_proxy:
+        opener = urllib2.build_opener(proxy_handler)
+    else:
+        opener = urllib2.build_opener(null_proxy_handler)
+    urllib2.install_opener(opener)
+    a_url = 'http://www.baidu.com/'
+    response=opener.open(a_url)
+    print response.read()
+
+
+
+
+def baidu_tieba(url,begin_page,end_page):
+    for i in range(begin_page, end_page+1):
+        sName = string.zfill(i,5) + '.html'
+        print 'web' + str(i) + 'stored as' + sName + '......'
+        f = open(sName,'w+')
+        user_agent="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36"
+        headers = { 'User-Agent' : user_agent }
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url+ str(i),data, headers = headers)
+        myResponse = urllib2.urlopen(req)
+
+        m = myResponse.read()
+        print m
+        f.write(m)
+        f.close()
+
+
+
+#bdurl = 'http://tieba.baidu.com/p/2296017831?pn='
+#iPostBegin = 1
+#iPostEnd = 10
+
+bdurl = str(raw_input('input url: \n'))
+begin_page = int(raw_input('start \n'))
+end_page = int(raw_input('end£º\n'))
+
+
+#baidu_tieba(bdurl,begin_page,end_page)
+def test_very():
+
+    postdata=urllib.urlencode({
+        'username':'ÍôÐ¡¹â',
+        'password':'why888',
+        'continueURI':'http://www.verycd.com/',
+        'fk':'',
+        'login_submit':'µÇÂ¼'
+    })
+    req = urllib2.Request(
+        url = 'http://secure.verycd.com/signin',
+        data = postdata
+    )
+    result = urllib2.urlopen(req)
+    str= result.read()
+    print unicode(str,"utf-8")
+#test_very()
