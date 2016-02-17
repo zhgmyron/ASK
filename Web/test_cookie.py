@@ -1,5 +1,4 @@
-__author__ = 'rzhao'
-#coding=utf-8
+#-*-coding=utf-8
 from selenium import webdriver
 import time
 
@@ -8,12 +7,15 @@ driver.get("http://www.smartisan.com/cn/#/")
 driver.maximize_window()
 
 time.sleep(3)
-driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/div/div[2]/h3/a").click()
+driver.find_element_by_link_text(u'中文').click()
 time.sleep(3)
-driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/div/div[3]/div[1]/a[1]").click()
+nowhandle =driver.current_window_handle
+driver.find_element_by_link_text(u'登录').click()
 time.sleep(2)
-div=driver.find_elements_by_class_name("dialog").find_element_by_name("username")
-div.send_keys("86466359@qq.com")
-driver.find_element_by_name("password").send_keys("Zxcvb1234567")
+m=driver.find_element_by_class_name('dialog')
+allhandles= driver.window_handles
+for handles in allhandles:
+    if handles != nowhandle:
+        driver.find_element_by_name("password").send_keys("Zxcvb1234567")
+        driver.find_element_by_class_name("btn btn-primary").click()
 
-driver.find_element_by_class_name("btn btn-primary").click()

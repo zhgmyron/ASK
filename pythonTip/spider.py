@@ -119,7 +119,7 @@ class Spider:
 
             detailURL = item[0]
 
-            detailPage = "http:" + self.getDetailPage(detailURL)
+            detailPage = self.getDetailPage(detailURL)
 
             brief = self.getBrief(detailPage)
 
